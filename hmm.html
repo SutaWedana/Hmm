@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Love You Upss🤭</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            line-height: 1;
+        }
+        canvas {
+            display: block;
+        }
+        .overlay-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            font-weight: bold;
+            color: white;
+            pointer-events: none;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                color: #f73487;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                color: #ffffff;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                color: #f73487;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay-text">I LOVE YOU</div>
+    <canvas id="heartCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('heartCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const scale = 20;
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+
+        function heartA(k) {
+            return 15 * Math.pow(Math.sin(k), 3);
+        }
+
+        function heartB(k) {
+            return 12 * Math.cos(k) - 5 * Math.cos(2 * k) - 2 * Math.cos(3 * k) - Math.cos(4 * k);
+        }
+
+        let i = 0;
+
+        function drawHeart() {
+            if (i >= 10000) return;
+
+            const x = heartA(i) * scale;
+            const y = -heartB(i) * scale; // Negate y to match turtle coordinates
+
+            ctx.beginPath();
+            ctx.arc(centerX + x, centerY + y, 2, 0, Math.PI * 2);
+            ctx.fillStyle = '#f73487';
+            ctx.fill();
+
+            i++;
+            requestAnimationFrame(drawHeart);
+        }
+
+        drawHeart();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
